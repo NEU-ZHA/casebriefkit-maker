@@ -133,6 +133,12 @@ def verify_ad_readiness() -> list[str]:
     combined_html = "\n".join(path.read_text(encoding="utf-8") for path in html_files())
     if combined_html.count('data-ad-slot="') < 3:
         failures.append("fewer than 3 ad-ready slots")
+    ad_slots = combined_html.count('data-ad-slot="')
+    sponsor_slot_links = combined_html.count('data-track-event="sponsor_slot_click"')
+    if sponsor_slot_links < ad_slots:
+        failures.append(f"only {sponsor_slot_links} sponsor links for {ad_slots} ad slots")
+    if 'href="advertise.html"' not in combined_html:
+        failures.append("missing internal advertise.html sponsor links")
     if "ads.txt" not in (ROOT / "privacy.html").read_text(encoding="utf-8"):
         failures.append("privacy.html does not mention ads.txt")
     sponsor_template = ROOT / ".github/ISSUE_TEMPLATE/sponsor-inquiry.yml"

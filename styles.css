@@ -323,6 +323,18 @@ select:focus {
   font-weight: 760;
 }
 
+.ad-slot-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  align-items: center;
+}
+
+.ad-slot .sponsor-link {
+  color: var(--muted);
+  font-weight: 720;
+}
+
 .preview-panel {
   overflow: hidden;
 }
