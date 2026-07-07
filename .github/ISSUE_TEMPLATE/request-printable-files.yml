@@ -1,0 +1,45 @@
+name: Request printable files
+description: Tell us which printable case brief files would be useful.
+title: "Printable files request"
+labels:
+  - printable-files
+  - demand-signal
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping shape CaseBriefKit. Please do not include private study records, school IDs, or sensitive personal information.
+  - type: checkboxes
+    id: formats
+    attributes:
+      label: Which formats would save you time?
+      options:
+        - label: Editable DOCX
+        - label: Printable PDF
+        - label: Google Docs copy
+        - label: Obsidian or Markdown
+  - type: textarea
+    id: workflow
+    attributes:
+      label: What would you use the files for?
+      description: Example: cold calls, daily reading notes, outline building, exam review, legal writing practice.
+    validations:
+      required: true
+  - type: textarea
+    id: missing
+    attributes:
+      label: What is missing from the free maker?
+      description: Tell us what would make a printable file useful enough to download.
+    validations:
+      required: false
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: How soon would you use it?
+      options:
+        - This week
+        - This month
+        - Later this semester
+        - Just browsing
+    validations:
+      required: true

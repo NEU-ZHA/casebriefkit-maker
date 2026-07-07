@@ -10,3 +10,9 @@ This public launch is intentionally limited to the free, indexable tool flow:
 - Basic privacy, terms, and contact pages
 
 Commercial download pages are not part of this launch copy.
+
+Intent signal:
+
+- Printable file requests are collected through GitHub Issues.
+- The request flow does not ask for private student records or sensitive details.
+- A public request is treated as a stronger signal than a page view.
