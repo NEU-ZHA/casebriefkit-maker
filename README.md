@@ -13,6 +13,7 @@ Commercial download pages are not part of this launch copy.
 
 Intent signal:
 
+- Public feedback thread: https://github.com/NEU-ZHA/casebriefkit-maker/issues/1
 - Printable file requests are collected through GitHub Issues.
 - A public one-page PDF/DOCX sample is included for lower-friction testing.
 - The printable DOCX/PDF buttons use the public release assets so downloads can be counted without adding tracking scripts.
