@@ -17,6 +17,7 @@ CaseBriefKit is an educational study aid for law students. It helps users organi
 
 ## Commercial / Sponsor Pages
 
+- [Sponsor Brief](https://neu-zha.github.io/casebriefkit-maker/sponsor-brief/): one-page founding sponsor pilot summary.
 - [Sponsor Media Kit](https://neu-zha.github.io/casebriefkit-maker/sponsor-media-kit/): pilot sponsor placement details.
 - [Advertise](https://neu-zha.github.io/casebriefkit-maker/advertise/): sponsor inquiry information.
 

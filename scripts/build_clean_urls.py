@@ -16,7 +16,6 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SITE_BASE = "https://neu-zha.github.io/casebriefkit-maker"
 EXCLUDED_HTML = {"404.html"}
 
 
@@ -42,12 +41,21 @@ def page_map() -> dict[str, str]:
     }
 
 
+def site_base_url() -> str:
+    ns = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+    loc = ET.parse(ROOT / "sitemap.xml").find(".//sm:loc", ns)
+    if loc is None or not loc.text:
+        raise RuntimeError("sitemap.xml does not contain a loc entry")
+    return loc.text.rstrip("/")
+
+
 def replace_absolute_page_urls(text: str, mapping: dict[str, str]) -> str:
+    base = site_base_url()
     updated = text
     for filename, clean_path in sorted(mapping.items(), key=lambda item: len(item[0]), reverse=True):
         if filename == "index.html":
             continue
-        updated = updated.replace(f"{SITE_BASE}/{filename}", f"{SITE_BASE}/{clean_path}")
+        updated = updated.replace(f"{base}/{filename}", f"{base}/{clean_path}")
     return updated
 
 
@@ -133,6 +141,7 @@ def update_html_files(mapping: dict[str, str], changed: list[str]) -> None:
 
 
 def update_sitemap(mapping: dict[str, str], changed: list[str]) -> None:
+    base = site_base_url()
     sitemap = ROOT / "sitemap.xml"
     ns = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
     tree = ET.parse(sitemap)
@@ -142,7 +151,7 @@ def update_sitemap(mapping: dict[str, str], changed: list[str]) -> None:
         loc = node.text or ""
         for filename, clean_path in mapping.items():
             if filename != "index.html":
-                loc = loc.replace(f"{SITE_BASE}/{filename}", f"{SITE_BASE}/{clean_path}")
+                loc = loc.replace(f"{base}/{filename}", f"{base}/{clean_path}")
         if loc not in urls:
             urls.append(loc)
 
@@ -160,6 +169,7 @@ def update_sitemap(mapping: dict[str, str], changed: list[str]) -> None:
 
 
 def update_indexnow(mapping: dict[str, str], changed: list[str]) -> None:
+    base = site_base_url()
     path = ROOT / "indexnow-submit.json"
     if not path.exists():
         return
@@ -168,7 +178,7 @@ def update_indexnow(mapping: dict[str, str], changed: list[str]) -> None:
     for url in data.get("urlList", []):
         for filename, clean_path in mapping.items():
             if filename != "index.html":
-                url = url.replace(f"{SITE_BASE}/{filename}", f"{SITE_BASE}/{clean_path}")
+                url = url.replace(f"{base}/{filename}", f"{base}/{clean_path}")
         if url not in urls:
             urls.append(url)
     data["urlList"] = urls

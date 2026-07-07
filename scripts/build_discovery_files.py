@@ -34,6 +34,7 @@ ENTRIES = [
     Entry("case-brief-template-docx", "Case Brief Template DOCX", "Download a free editable DOCX case brief template."),
     Entry("case-brief-format", "Case Brief Format", "Compare common case brief formats for class notes."),
     Entry("irac-case-brief-example", "IRAC Case Brief Example", "Review a short IRAC case brief example for law school notes."),
+    Entry("sponsor-brief", "Sponsor Brief", "One-page sponsor pilot brief for relevant law student study resources."),
     Entry("sponsor-media-kit", "Sponsor Media Kit", "Sponsor placement information for relevant legal education resources."),
     Entry("advertise", "Advertise on CaseBriefKit", "Pilot sponsor placement details for law school study resources."),
 ]
@@ -107,6 +108,7 @@ def build_llms(changed: list[str]) -> None:
             "",
             "## Commercial / Sponsor Pages",
             "",
+            f"- [Sponsor Brief]({base}/sponsor-brief/): one-page founding sponsor pilot summary.",
             f"- [Sponsor Media Kit]({base}/sponsor-media-kit/): pilot sponsor placement details.",
             f"- [Advertise]({base}/advertise/): sponsor inquiry information.",
             "",
