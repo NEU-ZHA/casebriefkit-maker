@@ -421,6 +421,17 @@ select:focus {
   color: #34413d;
 }
 
+.check-list,
+.step-list {
+  margin: 0;
+  padding-left: 21px;
+}
+
+.check-list li,
+.step-list li {
+  margin: 8px 0;
+}
+
 .content-page {
   display: grid;
   gap: 18px;
@@ -467,6 +478,20 @@ select:focus {
   border-radius: 8px;
   background: var(--surface-cool);
   padding: 14px;
+}
+
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.resource-grid a {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+  padding: 12px;
+  font-weight: 760;
 }
 
 .sample-sheet {
@@ -730,6 +755,7 @@ select:focus {
 @media (max-width: 920px) {
   .tool-grid,
   .content-layout,
+  .resource-grid,
   .product-hero,
   .product-grid {
     grid-template-columns: 1fr;

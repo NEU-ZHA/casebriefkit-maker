@@ -47,6 +47,10 @@ const sampleButton = document.querySelector("#load-sample");
 const clearButton = document.querySelector("#clear-form");
 
 function trackEvent(name, params = {}) {
+  if (typeof window.caseBriefKitTrack === "function") {
+    window.caseBriefKitTrack(name, params);
+    return;
+  }
   if (typeof window.gtag === "function") {
     window.gtag("event", name, params);
   }

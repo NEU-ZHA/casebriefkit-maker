@@ -41,7 +41,9 @@
           <a href="case-brief-template.html">Template</a>
           <a href="case-brief-maker.html">Maker</a>
           <a href="case-brief-template-word.html">Word</a>
-          <a href="printable-case-brief-template.html">PDF/DOCX</a>
+          <a href="case-brief-template-pdf.html">PDF</a>
+          <a href="case-brief-template-docx.html">DOCX</a>
+          <a href="how-to-brief-a-case.html">How To</a>
           <a href="case-brief-example.html">Example</a>
         </div>
       </nav>
@@ -56,9 +58,9 @@
         </div>
 
         <div class="download-strip" aria-label="Free downloads">
-          <a class="button primary" href="https://github.com/NEU-ZHA/casebriefkit-maker/releases/download/free-printable-v0.1/free-case-brief-template.docx">Download DOCX</a>
-          <a class="button secondary" href="https://github.com/NEU-ZHA/casebriefkit-maker/releases/download/free-printable-v0.1/free-case-brief-template.pdf">Download PDF</a>
-          <a class="text-link" href="case-brief-maker.html">Use the maker instead</a>
+          <a class="button primary" data-track-event="download_docx_click" data-format="docx" href="https://github.com/NEU-ZHA/casebriefkit-maker/releases/download/free-printable-v0.1/free-case-brief-template.docx">Download DOCX</a>
+          <a class="button secondary" data-track-event="download_pdf_click" data-format="pdf" href="https://github.com/NEU-ZHA/casebriefkit-maker/releases/download/free-printable-v0.1/free-case-brief-template.pdf">Download PDF</a>
+          <a class="text-link" data-track-event="open_maker_click" href="case-brief-maker.html">Use the maker instead</a>
         </div>
 
         <div class="sample-sheet" aria-label="Case brief template preview">
@@ -100,8 +102,8 @@
         <section class="interest-box">
           <strong>Want a different printable format?</strong>
           <p>If a different layout would save time, comment on the public feedback thread. Public feedback helps decide what should be built next.</p>
-          <a class="button secondary wide" href="https://github.com/NEU-ZHA/casebriefkit-maker/issues/1">Comment on Feedback Thread</a>
-          <a class="text-link wide" href="https://github.com/NEU-ZHA/casebriefkit-maker/issues/new?template=request-printable-files.yml&amp;title=Printable%20files%20request">Open a Structured Request</a>
+          <a class="button secondary wide" data-track-event="feedback_thread_click" href="https://github.com/NEU-ZHA/casebriefkit-maker/issues/1">Comment on Feedback Thread</a>
+          <a class="text-link wide" data-track-event="format_request_click" href="https://github.com/NEU-ZHA/casebriefkit-maker/issues/new?template=request-printable-files.yml&amp;title=Printable%20files%20request">Open a Structured Request</a>
         </section>
       </section>
     </main>
@@ -109,8 +111,9 @@
     <footer class="site-footer">
       <div class="footer-inner">
         <span>CaseBriefKit is an educational writing aid for law students.</span>
-        <span><a href="case-brief-template-word.html">Word</a> · <a href="case-brief-template-google-docs.html">Google Docs</a> · <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a> · <a href="contact.html">Contact</a></span>
+        <span><a href="case-brief-template-pdf.html">PDF</a> · <a href="case-brief-template-docx.html">DOCX</a> · <a href="case-brief-template-word.html">Word</a> · <a href="case-brief-template-google-docs.html">Google Docs</a> · <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a> · <a href="contact.html">Contact</a></span>
       </div>
     </footer>
+    <script src="tracking.js"></script>
   </body>
 </html>

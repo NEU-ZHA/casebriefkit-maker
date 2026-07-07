@@ -5,7 +5,8 @@ Free case brief maker and law school template pages.
 This public launch is intentionally limited to the free, indexable tool flow:
 
 - Case brief maker
-- IRAC, FIRAC, Word, Google Docs, and Markdown template pages
+- IRAC, FIRAC, Word, Google Docs, Markdown, PDF, and DOCX template pages
+- How to brief a case guide page
 - Example case brief page
 - Basic privacy, terms, and contact pages
 
@@ -17,6 +18,7 @@ Intent signal:
 - Printable file requests are collected through GitHub Issues.
 - A public one-page PDF/DOCX sample is included for lower-friction testing.
 - The printable DOCX/PDF buttons use the public release assets so downloads can be counted without adding tracking scripts.
+- Download, feedback, and maker CTA links include `data-track-event` attributes so GA4 can record intent events once a measurement ID is connected.
 - The request flow does not ask for private student records or sensitive details.
 - A public request is treated as a stronger signal than a page view.
 
