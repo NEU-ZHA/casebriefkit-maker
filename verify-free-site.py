@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import re
 import sys
+import json
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from urllib.parse import urlparse
@@ -162,6 +163,32 @@ def verify_measurable_downloads() -> list[str]:
     return failures
 
 
+def verify_structured_data() -> list[str]:
+    failures: list[str] = []
+    html_type_requirements = {
+        "free-case-brief-template.html": ["FAQPage", "DownloadAction"],
+        "free-case-brief-maker.html": ["FAQPage", "WebApplication"],
+    }
+    for path in html_files():
+        text = path.read_text(encoding="utf-8")
+        scripts = re.findall(
+            r'<script\s+type="application/ld\+json"\s*>(.*?)</script>',
+            text,
+            flags=re.S | re.I,
+        )
+        for index, raw in enumerate(scripts, start=1):
+            try:
+                json.loads(raw)
+            except json.JSONDecodeError as exc:
+                failures.append(f"{path.name}: invalid JSON-LD script {index}: {exc}")
+        for required in html_type_requirements.get(path.name, []):
+            if f'"@type": "{required}"' not in text:
+                failures.append(f"{path.name}: missing {required} structured data")
+        if path.name in html_type_requirements and " FAQ</h2>" not in text:
+            failures.append(f"{path.name}: missing visible FAQ section")
+    return failures
+
+
 def verify_forbidden_tokens() -> list[str]:
     failures: list[str] = []
     for path in sorted(ROOT.rglob("*")):
@@ -183,6 +210,7 @@ def main() -> int:
         + verify_assets()
         + verify_ad_readiness()
         + verify_measurable_downloads()
+        + verify_structured_data()
         + verify_forbidden_tokens()
     )
     print(f"html_files={len(html_files())}")
