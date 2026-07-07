@@ -46,6 +46,10 @@ def html_files() -> list[Path]:
     )
 
 
+def clean_url_slugs() -> list[str]:
+    return sorted(path.stem for path in html_files() if path.name != "index.html")
+
+
 def site_base_url() -> str:
     text = (ROOT / "sitemap.xml").read_text(encoding="utf-8")
     match = re.search(r"<loc>(https?://[^<]+)</loc>", text)
@@ -63,7 +67,12 @@ def url_to_file(url: str) -> Path:
         path = url[len(base) + 1 :]
     else:
         path = url.strip("/")
-    return ROOT / (path or "index.html")
+    candidate = ROOT / (path or "index.html")
+    if candidate.is_dir():
+        return candidate / "index.html"
+    if not candidate.exists() and path.endswith("/"):
+        return ROOT / path / "index.html"
+    return candidate
 
 
 def verify_html() -> list[str]:
@@ -110,6 +119,34 @@ def verify_sitemap() -> list[str]:
     return failures
 
 
+def verify_clean_urls() -> list[str]:
+    failures: list[str] = []
+    base = site_base_url()
+    for slug in clean_url_slugs():
+        source = ROOT / f"{slug}.html"
+        clean = ROOT / slug / "index.html"
+        clean_url = f"{base}/{slug}/"
+        if not clean.exists():
+            failures.append(f"missing clean URL page {slug}/index.html")
+            continue
+        source_text = source.read_text(encoding="utf-8")
+        clean_text = clean.read_text(encoding="utf-8")
+        if f'rel="canonical" href="{clean_url}"' not in source_text:
+            failures.append(f"{source.name}: canonical does not prefer clean URL")
+        if f'rel="canonical" href="{clean_url}"' not in clean_text:
+            failures.append(f"{slug}/index.html: canonical mismatch")
+        if 'href="../styles.css"' not in clean_text:
+            failures.append(f"{slug}/index.html: stylesheet is not parent-relative")
+        for href in re.findall(r'href="([^"]+)"', clean_text):
+            clean_href = href.split("#", 1)[0].split("?", 1)[0]
+            if not clean_href or clean_href.startswith(("http", "mailto:", "#", "data:", "javascript:")):
+                continue
+            target = (clean.parent / clean_href).resolve()
+            if not target.exists():
+                failures.append(f"{slug}/index.html: missing local href {href}")
+    return failures
+
+
 def verify_assets() -> list[str]:
     failures: list[str] = []
     for required in ["styles.css", "app.js", "robots.txt", "sitemap.xml", "_headers", "_redirects", ".nojekyll"]:
@@ -125,7 +162,7 @@ def verify_assets() -> list[str]:
         failures.append("missing ads.txt")
     if not (ROOT / "advertise.html").exists():
         failures.append("missing advertise.html")
-    for required_script in ["scripts/apply_analytics.py", "scripts/check_analytics.py"]:
+    for required_script in ["scripts/apply_analytics.py", "scripts/check_analytics.py", "scripts/build_clean_urls.py"]:
         if not (ROOT / required_script).exists():
             failures.append(f"missing {required_script}")
     return failures
@@ -143,8 +180,8 @@ def verify_ad_readiness() -> list[str]:
         failures.append(f"only {sponsor_slot_links} sponsor links and {sponsored_slots} sponsored slots for {ad_slots} ad slots")
     if sponsored_slots and 'rel="sponsored noopener"' not in combined_html:
         failures.append("sponsored slot missing rel=\"sponsored noopener\"")
-    if 'href="advertise.html"' not in combined_html:
-        failures.append("missing internal advertise.html sponsor links")
+    if 'href="advertise/"' not in combined_html and 'href="advertise.html"' not in combined_html:
+        failures.append("missing internal advertise sponsor links")
     if "ads.txt" not in (ROOT / "privacy.html").read_text(encoding="utf-8"):
         failures.append("privacy.html does not mention ads.txt")
     sponsor_template = ROOT / ".github/ISSUE_TEMPLATE/sponsor-inquiry.yml"
@@ -229,6 +266,7 @@ def main() -> int:
     failures = (
         verify_html()
         + verify_sitemap()
+        + verify_clean_urls()
         + verify_assets()
         + verify_ad_readiness()
         + verify_measurable_downloads()

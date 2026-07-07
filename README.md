@@ -8,6 +8,7 @@ This public launch is intentionally limited to the free, indexable tool flow:
 - IRAC, FIRAC, Word, Google Docs, Markdown, PDF, and DOCX template pages
 - How to brief a case guide page
 - Example case brief page
+- Clean SEO URLs, for example `/case-brief-maker/` and `/case-brief-template/`
 - Basic privacy, terms, and contact pages
 
 Commercial download pages are not part of this launch copy.
@@ -20,7 +21,7 @@ Intent signal:
 - A case brief template pack preview page targets more commercial search intent before a buyer flow exists.
 - A separate template pack preview PDF is published as a release asset so high-intent downloads can be counted without requiring GitHub login.
 - Ad-ready house placements are live, and `ads.txt` is present for future authorized seller lines after ad network approval.
-- A public sponsor media kit is live at https://neu-zha.github.io/casebriefkit-maker/sponsor-media-kit.html.
+- A public sponsor media kit is live at https://neu-zha.github.io/casebriefkit-maker/sponsor-media-kit/.
 - The sponsor pilot offer is intentionally small: `$29` for one reviewed 14-day placement or `$49` for two reviewed 14-day placements.
 - Sponsor inquiries are collected through GitHub Issues and should not include payment details.
 - Sponsor placement updates can be prepared with `python3 scripts/apply_sponsor_placement.py --config CONFIG.json` before review and publish.
@@ -50,6 +51,8 @@ Traffic measurement readiness:
 Custom domain readiness:
 
 - Do not add `CNAME` before the domain is purchased.
+- Canonical URLs and `sitemap.xml` now prefer directory-style pages so the same structure can move cleanly to `https://casebriefkit.com/case-brief-maker/`.
+- Keep clean URL pages synchronized with `python3 scripts/build_clean_urls.py`.
 - After buying a domain, run `python3 scripts/apply_custom_domain.py casebriefkit.com --dry-run`.
 - If the dry run is correct, run `python3 scripts/apply_custom_domain.py casebriefkit.com --apply`.
 - Configure DNS at the registrar, then run `python3 scripts/check_custom_domain.py casebriefkit.com`.
