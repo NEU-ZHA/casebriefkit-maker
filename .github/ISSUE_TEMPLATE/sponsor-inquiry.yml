@@ -39,6 +39,25 @@ body:
         - Not sure yet
     validations:
       required: true
+  - type: dropdown
+    id: pilot_budget
+    attributes:
+      label: Pilot budget comfort
+      description: This is only an inquiry, not a payment request. Do not include payment details.
+      options:
+        - $29 founding sponsor test
+        - $49 two-placement pilot
+        - Not sure yet
+        - Other budget
+    validations:
+      required: true
+  - type: textarea
+    id: fit
+    attributes:
+      label: Why is this useful to law students?
+      description: Briefly explain why the resource fits case briefing, legal writing, exam prep, or law school study.
+    validations:
+      required: true
   - type: textarea
     id: notes
     attributes:
