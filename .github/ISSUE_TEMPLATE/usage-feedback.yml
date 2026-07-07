@@ -1,0 +1,40 @@
+name: Usage feedback
+description: Tell us whether the free maker helped and what should improve.
+title: "Usage feedback"
+labels:
+  - usage-signal
+  - user-feedback
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for trying CaseBriefKit. Please do not include private study records, school IDs, or sensitive personal information.
+  - type: dropdown
+    id: used_for
+    attributes:
+      label: What did you use it for?
+      options:
+        - Daily case reading
+        - Cold-call prep
+        - Outline building
+        - Legal writing practice
+        - Exam review
+        - Just testing
+    validations:
+      required: true
+  - type: checkboxes
+    id: output
+    attributes:
+      label: Which output did you try?
+      options:
+        - label: Markdown
+        - label: Plain text
+        - label: Word HTML
+        - label: I only viewed the template
+  - type: textarea
+    id: feedback
+    attributes:
+      label: What should be better?
+      description: Short notes are fine.
+    validations:
+      required: true

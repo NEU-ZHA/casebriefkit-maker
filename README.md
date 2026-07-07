@@ -16,3 +16,5 @@ Intent signal:
 - Printable file requests are collected through GitHub Issues.
 - The request flow does not ask for private student records or sensitive details.
 - A public request is treated as a stronger signal than a page view.
+
+- Usage feedback is collected through GitHub Issues as a non-purchase signal.

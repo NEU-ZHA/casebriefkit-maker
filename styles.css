@@ -654,3 +654,12 @@ select:focus {
     grid-template-columns: 1fr;
   }
 }
+
+
+.text-link {
+  display: inline-flex;
+  justify-content: center;
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 700;
+}
