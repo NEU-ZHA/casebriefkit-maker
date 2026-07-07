@@ -53,6 +53,8 @@ Custom domain readiness:
 - Do not add `CNAME` before the domain is purchased.
 - Canonical URLs and `sitemap.xml` now prefer directory-style pages so the same structure can move cleanly to `https://casebriefkit.com/case-brief-maker/`.
 - Keep clean URL pages synchronized with `python3 scripts/build_clean_urls.py`.
+- Submit updated URLs to IndexNow with:
+  `python3 scripts/submit_indexnow.py --apply`
 - After buying a domain, run `python3 scripts/apply_custom_domain.py casebriefkit.com --dry-run`.
 - If the dry run is correct, run `python3 scripts/apply_custom_domain.py casebriefkit.com --apply`.
 - Configure DNS at the registrar, then run `python3 scripts/check_custom_domain.py casebriefkit.com`.
