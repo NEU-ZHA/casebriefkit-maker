@@ -494,6 +494,10 @@ select:focus {
   font-weight: 760;
 }
 
+.seo-section {
+  margin-top: 18px;
+}
+
 .sample-sheet {
   border: 1px solid var(--line);
   border-radius: 8px;
