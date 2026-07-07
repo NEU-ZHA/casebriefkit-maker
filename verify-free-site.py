@@ -174,6 +174,7 @@ def verify_structured_data() -> list[str]:
     html_type_requirements = {
         "free-case-brief-template.html": ["FAQPage", "DownloadAction"],
         "free-case-brief-maker.html": ["FAQPage", "WebApplication"],
+        "law-school-case-brief-template.html": ["FAQPage", "WebApplication"],
     }
     for path in html_files():
         text = path.read_text(encoding="utf-8")
@@ -192,6 +193,15 @@ def verify_structured_data() -> list[str]:
                 failures.append(f"{path.name}: missing {required} structured data")
         if path.name in html_type_requirements and " FAQ</h2>" not in text:
             failures.append(f"{path.name}: missing visible FAQ section")
+        if path.name == "law-school-case-brief-template.html":
+            for token in [
+                "External discovery entry",
+                "law_school_entry_maker_click",
+                "law_school_entry_template_click",
+                "law_school_entry_request_click",
+            ]:
+                if token not in text:
+                    failures.append(f"{path.name}: missing external entry token {token}")
     return failures
 
 
