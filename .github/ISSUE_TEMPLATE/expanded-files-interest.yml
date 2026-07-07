@@ -1,0 +1,64 @@
+name: Expanded files interest
+description: Tell us whether expanded DOCX/PDF case brief files would be worth buying.
+title: "Expanded files interest"
+labels:
+  - demand-signal
+  - purchase-intent
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping decide whether the expanded files should be built. Please do not include private study records, school IDs, or sensitive personal information. This is only an interest signal; do not send money.
+  - type: dropdown
+    id: buyer_type
+    attributes:
+      label: Which best describes you?
+      options:
+        - Law student
+        - Pre-law student
+        - Tutor or academic support
+        - Other
+    validations:
+      required: true
+  - type: checkboxes
+    id: files
+    attributes:
+      label: Which expanded files would be useful?
+      options:
+        - label: Editable DOCX case brief form
+        - label: Printable PDF case brief form
+        - label: FIRAC-specific form
+        - label: IRAC-specific form
+        - label: CREAC-specific form
+        - label: Cold-call prep sheet
+        - label: Reading log
+        - label: Rule bank
+  - type: dropdown
+    id: price_signal
+    attributes:
+      label: If the free sample saves time, what would feel reasonable?
+      options:
+        - I would only use the free version
+        - Under $5
+        - $5 to $9
+        - I need to see previews first
+    validations:
+      required: true
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: How soon would you use the expanded files?
+      options:
+        - This week
+        - This month
+        - Later this semester
+        - Just browsing
+    validations:
+      required: true
+  - type: textarea
+    id: missing
+    attributes:
+      label: What would make the files worth buying?
+      description: Short notes are fine.
+    validations:
+      required: false
