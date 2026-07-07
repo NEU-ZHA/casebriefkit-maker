@@ -125,6 +125,9 @@ def verify_assets() -> list[str]:
         failures.append("missing ads.txt")
     if not (ROOT / "advertise.html").exists():
         failures.append("missing advertise.html")
+    for required_script in ["scripts/apply_analytics.py", "scripts/check_analytics.py"]:
+        if not (ROOT / required_script).exists():
+            failures.append(f"missing {required_script}")
     return failures
 
 

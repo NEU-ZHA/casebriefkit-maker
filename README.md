@@ -28,6 +28,21 @@ Intent signal:
 
 - Usage feedback is collected through GitHub Issues as a non-purchase signal.
 
+Traffic measurement readiness:
+
+- GitHub Pages does not provide enough page-level analytics for SEO validation.
+- Without an analytics provider, external posts can only be judged by downloads, GitHub issues, sponsor inquiries, and visible platform replies.
+- Cloudflare Web Analytics can be added after creating a site token:
+  `python3 scripts/apply_analytics.py --cloudflare-token TOKEN --dry-run`
+  `python3 scripts/apply_analytics.py --cloudflare-token TOKEN --apply`
+- Microsoft Clarity can be added after creating a project id:
+  `python3 scripts/apply_analytics.py --clarity-id PROJECT_ID --dry-run`
+  `python3 scripts/apply_analytics.py --clarity-id PROJECT_ID --apply`
+- Check current analytics state with:
+  `python3 scripts/check_analytics.py`
+- Remove snippets with:
+  `python3 scripts/apply_analytics.py --remove --apply`
+
 Custom domain readiness:
 
 - Do not add `CNAME` before the domain is purchased.
