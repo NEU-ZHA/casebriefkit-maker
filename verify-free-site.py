@@ -149,7 +149,17 @@ def verify_clean_urls() -> list[str]:
 
 def verify_assets() -> list[str]:
     failures: list[str] = []
-    for required in ["styles.css", "app.js", "robots.txt", "sitemap.xml", "_headers", "_redirects", ".nojekyll"]:
+    for required in [
+        "styles.css",
+        "app.js",
+        "robots.txt",
+        "sitemap.xml",
+        "feed.xml",
+        "llms.txt",
+        "_headers",
+        "_redirects",
+        ".nojekyll",
+    ]:
         if not (ROOT / required).exists():
             failures.append(f"missing {required}")
     app = (ROOT / "app.js").read_text(encoding="utf-8")
@@ -174,6 +184,41 @@ def verify_assets() -> list[str]:
     for required_image in ["assets/casebriefkit-icon.png", "assets/casebriefkit-og.png"]:
         if not (ROOT / required_image).exists():
             failures.append(f"missing {required_image}")
+    return failures
+
+
+def verify_discovery_files() -> list[str]:
+    failures: list[str] = []
+    try:
+        feed_root = ET.parse(ROOT / "feed.xml").getroot()
+    except ET.ParseError as exc:
+        failures.append(f"feed.xml invalid XML: {exc}")
+    else:
+        if feed_root.tag != "rss":
+            failures.append("feed.xml root is not rss")
+        items = feed_root.findall("./channel/item")
+        if len(items) < 8:
+            failures.append("feed.xml has fewer than 8 items")
+    llms = (ROOT / "llms.txt").read_text(encoding="utf-8")
+    for token in [
+        "CaseBriefKit",
+        "Case Brief Maker",
+        "Law School Case Brief Template",
+        "RSS Feed",
+        "Not legal advice",
+    ]:
+        if token not in llms:
+            failures.append(f"llms.txt missing {token}")
+    headers = (ROOT / "_headers").read_text(encoding="utf-8")
+    for token in ["/feed.xml", "application/rss+xml", "/llms.txt"]:
+        if token not in headers:
+            failures.append(f"_headers missing {token}")
+    for path in sorted(ROOT.rglob("*.html")):
+        if ".git" in path.parts or path.name.startswith("google"):
+            continue
+        text = path.read_text(encoding="utf-8")
+        if 'rel="alternate" type="application/rss+xml"' not in text:
+            failures.append(f"{path.relative_to(ROOT)} missing RSS alternate link")
     return failures
 
 
@@ -277,6 +322,7 @@ def main() -> int:
         + verify_sitemap()
         + verify_clean_urls()
         + verify_assets()
+        + verify_discovery_files()
         + verify_ad_readiness()
         + verify_measurable_downloads()
         + verify_structured_data()
