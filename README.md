@@ -20,6 +20,10 @@ Intent signal:
 - A case brief template pack preview page targets more commercial search intent before a buyer flow exists.
 - A separate template pack preview PDF is published as a release asset so high-intent downloads can be counted without requiring GitHub login.
 - Ad-ready house placements are live, and `ads.txt` is present for future authorized seller lines after ad network approval.
+- A public sponsor media kit is live at https://neu-zha.github.io/casebriefkit-maker/sponsor-media-kit.html.
+- The sponsor pilot offer is intentionally small: `$29` for one reviewed 14-day placement or `$49` for two reviewed 14-day placements.
+- Sponsor inquiries are collected through GitHub Issues and should not include payment details.
+- Sponsor placement updates can be prepared with `python3 scripts/apply_sponsor_placement.py --config CONFIG.json` before review and publish.
 - A public one-page PDF/DOCX sample is included for lower-friction testing.
 - The printable DOCX/PDF buttons use the public release assets so downloads can be counted without adding tracking scripts.
 - Download, feedback, and maker CTA links include `data-track-event` attributes so GA4 can record intent events once a measurement ID is connected.
