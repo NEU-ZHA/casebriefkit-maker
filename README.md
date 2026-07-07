@@ -27,3 +27,11 @@ Intent signal:
 - A public request is treated as a stronger signal than a page view.
 
 - Usage feedback is collected through GitHub Issues as a non-purchase signal.
+
+Custom domain readiness:
+
+- Do not add `CNAME` before the domain is purchased.
+- After buying a domain, run `python3 scripts/apply_custom_domain.py casebriefkit.com --dry-run`.
+- If the dry run is correct, run `python3 scripts/apply_custom_domain.py casebriefkit.com --apply`.
+- Configure DNS at the registrar, then run `python3 scripts/check_custom_domain.py casebriefkit.com`.
+- Only after DNS, HTTPS, sitemap, and robots checks pass should Search Console and IndexNow move to the custom domain.
