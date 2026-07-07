@@ -18,6 +18,7 @@ Intent signal:
 - Printable file requests are collected through GitHub Issues.
 - Expanded DOCX/PDF file interest is collected through GitHub Issues as a purchase-intent signal before any sale flow is opened.
 - A case brief template pack preview page targets more commercial search intent before a buyer flow exists.
+- A separate template pack preview PDF is published as a release asset so high-intent downloads can be counted without requiring GitHub login.
 - A public one-page PDF/DOCX sample is included for lower-friction testing.
 - The printable DOCX/PDF buttons use the public release assets so downloads can be counted without adding tracking scripts.
 - Download, feedback, and maker CTA links include `data-track-event` attributes so GA4 can record intent events once a measurement ID is connected.
