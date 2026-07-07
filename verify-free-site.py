@@ -302,6 +302,20 @@ def verify_structured_data() -> list[str]:
     return failures
 
 
+def verify_tracking_coverage() -> list[str]:
+    failures: list[str] = []
+    for path in sorted(ROOT.rglob("*.html")):
+        if ".git" in path.parts or path.name.startswith("google"):
+            continue
+        text = path.read_text(encoding="utf-8")
+        if "data-track-event" not in text:
+            continue
+        expected = "../tracking.js" if path.parent != ROOT else "tracking.js"
+        if f'src="{expected}"' not in text:
+            failures.append(f"{path.relative_to(ROOT)} has tracking events but missing {expected}")
+    return failures
+
+
 def verify_forbidden_tokens() -> list[str]:
     failures: list[str] = []
     for path in sorted(ROOT.rglob("*")):
@@ -326,6 +340,7 @@ def main() -> int:
         + verify_ad_readiness()
         + verify_measurable_downloads()
         + verify_structured_data()
+        + verify_tracking_coverage()
         + verify_forbidden_tokens()
     )
     print(f"html_files={len(html_files())}")
