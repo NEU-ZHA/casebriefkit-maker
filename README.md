@@ -14,6 +14,7 @@ Commercial download pages are not part of this launch copy.
 Intent signal:
 
 - Printable file requests are collected through GitHub Issues.
+- A public one-page PDF/DOCX sample is included for lower-friction testing.
 - The request flow does not ask for private student records or sensitive details.
 - A public request is treated as a stronger signal than a page view.
 
