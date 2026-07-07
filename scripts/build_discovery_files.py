@@ -11,8 +11,6 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SITE_BASE = "https://neu-zha.github.io/casebriefkit-maker"
-FEED_URL = f"{SITE_BASE}/feed.xml"
 UPDATED = "2026-07-07"
 
 
@@ -24,7 +22,7 @@ class Entry:
 
     @property
     def url(self) -> str:
-        return f"{SITE_BASE}/{self.path}".rstrip("/") + "/"
+        return f"{site_base_url()}/{self.path}".rstrip("/") + "/"
 
 
 ENTRIES = [
@@ -41,6 +39,18 @@ ENTRIES = [
 ]
 
 
+def site_base_url() -> str:
+    ns = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+    loc = ET.parse(ROOT / "sitemap.xml").find(".//sm:loc", ns)
+    if loc is None or not loc.text:
+        raise RuntimeError("sitemap.xml does not contain a loc entry")
+    return loc.text.rstrip("/")
+
+
+def feed_url() -> str:
+    return f"{site_base_url()}/feed.xml"
+
+
 def write_if_changed(path: Path, text: str, changed: list[str]) -> None:
     original = path.read_text(encoding="utf-8") if path.exists() else None
     if original == text:
@@ -50,15 +60,16 @@ def write_if_changed(path: Path, text: str, changed: list[str]) -> None:
 
 
 def build_feed(changed: list[str]) -> None:
+    base = site_base_url()
     lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
         "  <channel>",
         "    <title>CaseBriefKit</title>",
-        f"    <link>{SITE_BASE}/</link>",
+        f"    <link>{base}/</link>",
         "    <description>Free case brief template and maker updates for law school study notes.</description>",
         "    <language>en-us</language>",
-        f'    <atom:link href="{FEED_URL}" rel="self" type="application/rss+xml" />',
+        f'    <atom:link href="{feed_url()}" rel="self" type="application/rss+xml" />',
         f"    <lastBuildDate>{UPDATED}</lastBuildDate>",
     ]
     for entry in ENTRIES:
@@ -78,6 +89,7 @@ def build_feed(changed: list[str]) -> None:
 
 
 def build_llms(changed: list[str]) -> None:
+    base = site_base_url()
     lines = [
         "# CaseBriefKit",
         "",
@@ -95,15 +107,15 @@ def build_llms(changed: list[str]) -> None:
             "",
             "## Commercial / Sponsor Pages",
             "",
-            f"- [Sponsor Media Kit]({SITE_BASE}/sponsor-media-kit/): pilot sponsor placement details.",
-            f"- [Advertise]({SITE_BASE}/advertise/): sponsor inquiry information.",
+            f"- [Sponsor Media Kit]({base}/sponsor-media-kit/): pilot sponsor placement details.",
+            f"- [Advertise]({base}/advertise/): sponsor inquiry information.",
             "",
             "## Files",
             "",
-            f"- [Sitemap]({SITE_BASE}/sitemap.xml)",
-            f"- [RSS Feed]({SITE_BASE}/feed.xml)",
-            f"- [Free PDF Template]({SITE_BASE}/downloads/free-case-brief-template.pdf)",
-            f"- [Free DOCX Template]({SITE_BASE}/downloads/free-case-brief-template.docx)",
+            f"- [Sitemap]({base}/sitemap.xml)",
+            f"- [RSS Feed]({base}/feed.xml)",
+            f"- [Free PDF Template]({base}/downloads/free-case-brief-template.pdf)",
+            f"- [Free DOCX Template]({base}/downloads/free-case-brief-template.docx)",
             "",
             "## Safety",
             "",
@@ -125,7 +137,7 @@ def html_files() -> list[Path]:
 
 
 def add_feed_link(changed: list[str]) -> None:
-    alternate = f'    <link rel="alternate" type="application/rss+xml" title="CaseBriefKit updates" href="{FEED_URL}">'
+    alternate = f'    <link rel="alternate" type="application/rss+xml" title="CaseBriefKit updates" href="{feed_url()}">'
     for path in html_files():
         text = path.read_text(encoding="utf-8")
         if 'rel="alternate" type="application/rss+xml"' in text:
