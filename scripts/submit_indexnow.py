@@ -10,9 +10,11 @@ from __future__ import annotations
 import argparse
 import json
 import ssl
+import subprocess
 import sys
 import urllib.error
 import urllib.request
+import tempfile
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -69,7 +71,51 @@ def submit(endpoint: str, data: dict[str, object], timeout: int) -> tuple[int, s
     except urllib.error.HTTPError as exc:
         return exc.code, exc.read().decode("utf-8", errors="replace")
     except urllib.error.URLError as exc:
-        return 0, f"transport_error: {exc}"
+        fallback_status, fallback_body = submit_with_curl(endpoint, body, timeout)
+        if 200 <= fallback_status < 300:
+            return fallback_status, fallback_body
+        return 0, f"transport_error: {exc}\ncurl_fallback_status={fallback_status}\ncurl_fallback_body={fallback_body}"
+
+
+def submit_with_curl(endpoint: str, body: bytes, timeout: int) -> tuple[int, str]:
+    with tempfile.NamedTemporaryFile(delete=False) as handle:
+        handle.write(body)
+        payload_path = Path(handle.name)
+    try:
+        result = subprocess.run(
+            [
+                "curl",
+                "--http1.1",
+                "--silent",
+                "--show-error",
+                "--max-time",
+                str(timeout),
+                "--output",
+                "-",
+                "--write-out",
+                "\n%{http_code}",
+                "-H",
+                "Content-Type: application/json; charset=utf-8",
+                "--data-binary",
+                f"@{payload_path}",
+                endpoint,
+            ],
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+    finally:
+        payload_path.unlink(missing_ok=True)
+    output = result.stdout
+    if "\n" not in output:
+        return 0, result.stderr.strip() or output.strip()
+    body_text, status_text = output.rsplit("\n", 1)
+    try:
+        status = int(status_text.strip())
+    except ValueError:
+        status = 0
+    response_body = body_text.strip() or result.stderr.strip()
+    return status, response_body
 
 
 def main() -> int:
