@@ -283,6 +283,46 @@ select:focus {
   font-size: 13px;
 }
 
+.ad-slot {
+  display: grid;
+  gap: 6px;
+  margin-top: 18px;
+  border: 1px dashed #b9c8c2;
+  border-radius: 8px;
+  background: #fbfdfc;
+  padding: 14px;
+}
+
+.ad-slot.compact {
+  margin-top: 14px;
+}
+
+.ad-label {
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 820;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.ad-slot strong {
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+.ad-slot p {
+  margin: 0;
+  color: #34413d;
+  font-size: 13px;
+}
+
+.ad-slot a {
+  justify-self: start;
+  font-size: 13px;
+  font-weight: 760;
+}
+
 .preview-panel {
   overflow: hidden;
 }

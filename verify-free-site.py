@@ -120,6 +120,27 @@ def verify_assets() -> list[str]:
             failures.append(f"app.js missing {token}")
     if "template_pack_" in app or "template-pack" in app:
         failures.append("app.js still contains template-pack tracking")
+    if not (ROOT / "ads.txt").exists():
+        failures.append("missing ads.txt")
+    if not (ROOT / "advertise.html").exists():
+        failures.append("missing advertise.html")
+    return failures
+
+
+def verify_ad_readiness() -> list[str]:
+    failures: list[str] = []
+    combined_html = "\n".join(path.read_text(encoding="utf-8") for path in html_files())
+    if combined_html.count('data-ad-slot="') < 3:
+        failures.append("fewer than 3 ad-ready slots")
+    if "ads.txt" not in (ROOT / "privacy.html").read_text(encoding="utf-8"):
+        failures.append("privacy.html does not mention ads.txt")
+    sponsor_template = ROOT / ".github/ISSUE_TEMPLATE/sponsor-inquiry.yml"
+    if not sponsor_template.exists():
+        failures.append("missing sponsor inquiry template")
+    else:
+        sponsor_text = sponsor_template.read_text(encoding="utf-8")
+        if "sponsorship" not in sponsor_text or "Sponsor inquiry" not in sponsor_text:
+            failures.append("sponsor inquiry template mismatch")
     return failures
 
 
@@ -138,7 +159,7 @@ def verify_forbidden_tokens() -> list[str]:
 
 
 def main() -> int:
-    failures = verify_html() + verify_sitemap() + verify_assets() + verify_forbidden_tokens()
+    failures = verify_html() + verify_sitemap() + verify_assets() + verify_ad_readiness() + verify_forbidden_tokens()
     print(f"html_files={len(html_files())}")
     if failures:
         print("FAIL")

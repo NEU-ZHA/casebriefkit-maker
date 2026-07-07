@@ -1,0 +1,2 @@
+# CaseBriefKit has no authorized advertising sellers yet.
+# Add network-provided authorized seller lines here after approval.

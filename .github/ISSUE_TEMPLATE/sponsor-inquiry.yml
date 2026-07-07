@@ -1,0 +1,48 @@
+name: Sponsor inquiry
+description: Ask about sponsoring a CaseBriefKit study resource placement.
+title: "Sponsor inquiry"
+labels:
+  - sponsorship
+  - demand-signal
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for your interest. Please do not include payment details, passwords, student records, or sensitive personal information.
+  - type: dropdown
+    id: sponsor_type
+    attributes:
+      label: What kind of resource would you promote?
+      options:
+        - Law school study aid
+        - Legal writing tool
+        - Bar prep or exam prep
+        - Academic support service
+        - Other education resource
+    validations:
+      required: true
+  - type: textarea
+    id: resource
+    attributes:
+      label: Resource URL and short description
+      description: Keep it short. CaseBriefKit only considers education-relevant placements.
+    validations:
+      required: true
+  - type: dropdown
+    id: placement
+    attributes:
+      label: Placement interest
+      options:
+        - Template pages
+        - Maker page
+        - PDF/DOCX download pages
+        - Not sure yet
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Optional context, campaign dates, or questions.
+    validations:
+      required: false
