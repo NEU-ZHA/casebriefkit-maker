@@ -144,6 +144,24 @@ def verify_ad_readiness() -> list[str]:
     return failures
 
 
+def verify_measurable_downloads() -> list[str]:
+    failures: list[str] = []
+    release_prefix = "https://github.com/NEU-ZHA/casebriefkit-maker/releases/download/free-printable-v0.1/"
+    high_intent_pages = [
+        ROOT / "free-case-brief-template.html",
+        ROOT / "case-brief-template-pdf.html",
+        ROOT / "case-brief-template-docx.html",
+        ROOT / "printable-case-brief-template.html",
+    ]
+    for path in high_intent_pages:
+        text = path.read_text(encoding="utf-8")
+        if "free-case-brief-template.pdf" in text and f"{release_prefix}free-case-brief-template.pdf" not in text:
+            failures.append(f"{path.name}: PDF download does not use measurable release asset")
+        if "free-case-brief-template.docx" in text and f"{release_prefix}free-case-brief-template.docx" not in text:
+            failures.append(f"{path.name}: DOCX download does not use measurable release asset")
+    return failures
+
+
 def verify_forbidden_tokens() -> list[str]:
     failures: list[str] = []
     for path in sorted(ROOT.rglob("*")):
@@ -159,7 +177,14 @@ def verify_forbidden_tokens() -> list[str]:
 
 
 def main() -> int:
-    failures = verify_html() + verify_sitemap() + verify_assets() + verify_ad_readiness() + verify_forbidden_tokens()
+    failures = (
+        verify_html()
+        + verify_sitemap()
+        + verify_assets()
+        + verify_ad_readiness()
+        + verify_measurable_downloads()
+        + verify_forbidden_tokens()
+    )
     print(f"html_files={len(html_files())}")
     if failures:
         print("FAIL")
