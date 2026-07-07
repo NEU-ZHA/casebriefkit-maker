@@ -138,8 +138,11 @@ def verify_ad_readiness() -> list[str]:
         failures.append("fewer than 3 ad-ready slots")
     ad_slots = combined_html.count('data-ad-slot="')
     sponsor_slot_links = combined_html.count('data-track-event="sponsor_slot_click"')
-    if sponsor_slot_links < ad_slots:
-        failures.append(f"only {sponsor_slot_links} sponsor links for {ad_slots} ad slots")
+    sponsored_slots = combined_html.count('data-sponsored="true"')
+    if sponsor_slot_links + sponsored_slots < ad_slots:
+        failures.append(f"only {sponsor_slot_links} sponsor links and {sponsored_slots} sponsored slots for {ad_slots} ad slots")
+    if sponsored_slots and 'rel="sponsored noopener"' not in combined_html:
+        failures.append("sponsored slot missing rel=\"sponsored noopener\"")
     if 'href="advertise.html"' not in combined_html:
         failures.append("missing internal advertise.html sponsor links")
     if "ads.txt" not in (ROOT / "privacy.html").read_text(encoding="utf-8"):
