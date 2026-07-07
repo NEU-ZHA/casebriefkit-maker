@@ -575,6 +575,50 @@ select:focus {
   color: #34413d;
 }
 
+.file-preview-grid,
+.comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.file-card,
+.comparison-grid > div {
+  display: grid;
+  gap: 6px;
+  border: 1px solid #d6ddd9;
+  border-radius: 8px;
+  background: var(--surface-soft);
+  padding: 12px;
+}
+
+.file-card strong,
+.comparison-grid strong {
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+.file-card span,
+.comparison-grid li,
+.signal-list li {
+  color: #34413d;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.comparison-grid ul,
+.signal-list {
+  margin: 4px 0 0;
+  padding-left: 20px;
+}
+
+.comparison-grid li,
+.signal-list li {
+  margin: 6px 0;
+}
+
 .template-code {
   margin: 12px 0 0;
   border: 1px solid #d5ded9;
@@ -760,6 +804,8 @@ select:focus {
   .tool-grid,
   .content-layout,
   .resource-grid,
+  .file-preview-grid,
+  .comparison-grid,
   .product-hero,
   .product-grid {
     grid-template-columns: 1fr;
