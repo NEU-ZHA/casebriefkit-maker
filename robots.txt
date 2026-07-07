@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://neu-zha.github.io/casebriefkit-maker/sitemap.xml

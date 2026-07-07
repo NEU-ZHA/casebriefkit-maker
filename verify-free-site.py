@@ -1,0 +1,148 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import re
+import sys
+import xml.etree.ElementTree as ET
+from pathlib import Path
+from urllib.parse import urlparse
+
+
+ROOT = Path(__file__).resolve().parent
+FORBIDDEN = [
+    "Request checkout",
+    "checkout",
+    "$2.99",
+    "$9",
+    "Template Pack",
+    "template-pack",
+    "refund",
+    "delivery",
+    "8 DOCX",
+    "9 PDF",
+    "No Markdown",
+    "Lemon",
+    "Paddle",
+    "PayPal",
+    "KYC",
+    "/Users/",
+]
+REQUIRED_APP_TOKENS = [
+    "trackEvent",
+    "copy_output",
+    "template_switch",
+    "output_switch",
+    "load_sample",
+]
+
+
+def html_files() -> list[Path]:
+    return sorted(path for path in ROOT.glob("*.html") if path.name != "404.html")
+
+
+def site_base_url() -> str:
+    text = (ROOT / "sitemap.xml").read_text(encoding="utf-8")
+    match = re.search(r"<loc>(https?://[^<]+)</loc>", text)
+    if not match:
+        return ""
+    parsed = urlparse(match.group(1).rstrip("/"))
+    return f"{parsed.scheme}://{parsed.netloc}{parsed.path.rstrip('/')}".rstrip("/")
+
+
+def url_to_file(url: str) -> Path:
+    base = site_base_url()
+    if url.rstrip("/") == base:
+        return ROOT / "index.html"
+    if url.startswith(base + "/"):
+        path = url[len(base) + 1 :]
+    else:
+        path = url.strip("/")
+    return ROOT / (path or "index.html")
+
+
+def verify_html() -> list[str]:
+    failures: list[str] = []
+    for path in html_files():
+        text = path.read_text(encoding="utf-8")
+        for label, pattern in [
+            ("title", r"<title>(.*?)</title>"),
+            ("description", r'<meta name="description" content="([^"]+)"'),
+            ("h1", r"<h1[^>]*>(.*?)</h1>"),
+            ("canonical", r'<link rel="canonical" href="([^"]+)"'),
+        ]:
+            if not re.search(pattern, text, flags=re.S | re.I):
+                failures.append(f"{path.name}: missing {label}")
+        for href in re.findall(r'href="([^"]+)"', text):
+            clean = href.split("#", 1)[0]
+            if not clean or clean.startswith(("http", "mailto:", "#")) or clean in {"styles.css"}:
+                continue
+            if not (ROOT / clean).exists():
+                failures.append(f"{path.name}: missing local href {href}")
+    return failures
+
+
+def verify_sitemap() -> list[str]:
+    failures: list[str] = []
+    ns = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+    sitemap = ROOT / "sitemap.xml"
+    locs = [node.text or "" for node in ET.parse(sitemap).findall(".//sm:loc", ns)]
+    canonicals = []
+    for path in html_files():
+        text = path.read_text(encoding="utf-8")
+        match = re.search(r'<link rel="canonical" href="([^"]+)"', text, flags=re.S | re.I)
+        if match:
+            canonicals.append(match.group(1))
+    for loc in locs:
+        if not url_to_file(loc).exists():
+            failures.append(f"sitemap: {loc} does not map to a file")
+    missing = sorted(set(canonicals) - set(locs))
+    extra = sorted(set(locs) - set(canonicals))
+    if missing:
+        failures.append("sitemap missing canonical URLs: " + ", ".join(missing))
+    if extra:
+        failures.append("sitemap has non-canonical URLs: " + ", ".join(extra))
+    return failures
+
+
+def verify_assets() -> list[str]:
+    failures: list[str] = []
+    for required in ["styles.css", "app.js", "robots.txt", "sitemap.xml", "_headers", "_redirects", ".nojekyll"]:
+        if not (ROOT / required).exists():
+            failures.append(f"missing {required}")
+    app = (ROOT / "app.js").read_text(encoding="utf-8")
+    for token in REQUIRED_APP_TOKENS:
+        if token not in app:
+            failures.append(f"app.js missing {token}")
+    if "template_pack_" in app or "template-pack" in app:
+        failures.append("app.js still contains template-pack tracking")
+    return failures
+
+
+def verify_forbidden_tokens() -> list[str]:
+    failures: list[str] = []
+    for path in sorted(ROOT.rglob("*")):
+        if path.is_dir() or ".git" in path.parts:
+            continue
+        if path.suffix.lower() not in {".html", ".js", ".css", ".xml", ".txt", ".md", ""}:
+            continue
+        text = path.read_text(encoding="utf-8", errors="ignore")
+        for token in FORBIDDEN:
+            if token.lower() in text.lower():
+                failures.append(f"{path.relative_to(ROOT)}: forbidden token {token!r}")
+    return failures
+
+
+def main() -> int:
+    failures = verify_html() + verify_sitemap() + verify_assets() + verify_forbidden_tokens()
+    print(f"html_files={len(html_files())}")
+    if failures:
+        print("FAIL")
+        for failure in failures:
+            print(f"- {failure}")
+        return 1
+    print("OK")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
