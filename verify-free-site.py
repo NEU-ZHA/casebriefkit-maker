@@ -37,7 +37,11 @@ REQUIRED_APP_TOKENS = [
 
 
 def html_files() -> list[Path]:
-    return sorted(path for path in ROOT.glob("*.html") if path.name != "404.html")
+    return sorted(
+        path
+        for path in ROOT.glob("*.html")
+        if path.name != "404.html" and not path.name.startswith("google")
+    )
 
 
 def site_base_url() -> str:
