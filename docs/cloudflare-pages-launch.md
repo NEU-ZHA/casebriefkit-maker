@@ -32,7 +32,7 @@ Create a Pages project from the GitHub repository:
 
 - Production branch: `main`
 - Build command: `exit 0`
-- Build output directory: `/`
+- Build output directory: `.`
 - Root directory: leave blank
 
 The repository already includes `_headers`, `_redirects`, `404.html`, `robots.txt`, `sitemap.xml`, `feed.xml`, and `llms.txt`.
