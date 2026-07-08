@@ -1,6 +1,6 @@
-name: Expanded files interest
-description: Tell us whether expanded DOCX/PDF case brief files would be worth buying.
-title: "Expanded files interest"
+name: $9 template pack waitlist
+description: Tell us whether the planned $9 DOCX/PDF case brief template pack would be worth buying.
+title: "Case brief template pack waitlist"
 labels:
   - demand-signal
   - purchase-intent
@@ -8,7 +8,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for helping decide whether the expanded files should be built. Please do not include private study records, school IDs, or sensitive personal information. This is only an interest signal; do not send money.
+        Thanks for helping decide whether the planned $9 template pack should be opened. Please do not include private study records, school IDs, or sensitive personal information. This is only an interest signal; do not send money.
   - type: dropdown
     id: buyer_type
     attributes:
@@ -31,6 +31,8 @@ body:
         - label: IRAC-specific form
         - label: CREAC-specific form
         - label: Cold-call prep sheet
+        - label: Cold-call prompt pack
+        - label: AI cold-call prep skill or workflow
         - label: Reading log
         - label: Rule bank
   - type: dropdown
@@ -41,6 +43,7 @@ body:
         - I would only use the free version
         - Under $5
         - $5 to $9
+        - $9 is reasonable if the previews are clear
         - I need to see previews first
     validations:
       required: true
@@ -58,7 +61,7 @@ body:
   - type: textarea
     id: missing
     attributes:
-      label: What would make the files worth buying?
+      label: What would make the files or cold-call prompts worth buying?
       description: Short notes are fine.
     validations:
       required: false

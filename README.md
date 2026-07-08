@@ -11,14 +11,14 @@ This public launch is intentionally limited to the free, indexable tool flow:
 - Clean SEO URLs, for example `/case-brief-maker/` and `/case-brief-template/`
 - Basic privacy, terms, and contact pages
 
-Commercial download pages are not part of this launch copy.
+Commercial download fulfillment is not part of this launch copy.
 
 Intent signal:
 
 - Public feedback thread: https://github.com/NEU-ZHA/casebriefkit-maker/issues/1
 - Printable file requests are collected through GitHub Issues.
 - Expanded DOCX/PDF file interest is collected through GitHub Issues as a purchase-intent signal before any sale flow is opened.
-- A case brief template pack preview page targets more commercial search intent before a buyer flow exists.
+- A case brief template pack preview page now tests a planned `$9` one-time pack before a real payment link is added.
 - A separate template pack preview PDF is published as a release asset so high-intent downloads can be counted without requiring GitHub login.
 - Ad-ready house placements are live, and `ads.txt` is present for future authorized seller lines after ad network approval.
 - A public sponsor media kit is live at https://neu-zha.github.io/casebriefkit-maker/sponsor-media-kit/.
@@ -30,6 +30,8 @@ Intent signal:
 - Download, feedback, and maker CTA links include `data-track-event` attributes so GA4 can record intent events once a measurement ID is connected.
 - The request flow does not ask for private student records or sensitive details.
 - A public request is treated as a stronger signal than a page view.
+- The `$9` waitlist is not a payment request; it is a price-sensitivity and urgency signal.
+- Cold-call prompts or an AI cold-call prep workflow are tracked as future add-on interest, not part of the first paid test.
 
 - Usage feedback is collected through GitHub Issues as a non-purchase signal.
 

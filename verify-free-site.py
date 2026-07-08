@@ -14,7 +14,6 @@ FORBIDDEN = [
     "Request checkout",
     "checkout",
     "$2.99",
-    "$9",
     "template_pack_v0_5",
     "CaseBriefKit_LawSchool_TemplatePack",
     "CaseBriefKit_LawSchool_TemplatePack_v0.5.zip",
@@ -316,6 +315,37 @@ def verify_tracking_coverage() -> list[str]:
     return failures
 
 
+def verify_template_pack_waitlist() -> list[str]:
+    failures: list[str] = []
+    page = ROOT / "case-brief-template-pack.html"
+    text = page.read_text(encoding="utf-8")
+    required = [
+        "Planned $9",
+        "Join the $9 Waitlist",
+        "Cold-call prompt pack",
+        'data-track-event="template_pack_price_waitlist_click"',
+        "No money is collected on this page.",
+    ]
+    for token in required:
+        if token not in text:
+            failures.append(f"{page.name}: missing template pack waitlist token {token!r}")
+    vendor_patterns = [
+        "lemonsqueezy.com/checkout",
+        "paddle.com/checkout",
+        "gumroad.com/l/",
+        "buy.stripe.com",
+    ]
+    for token in vendor_patterns:
+        if token in text.lower():
+            failures.append(f"{page.name}: contains active payment vendor URL {token!r}")
+    issue_template = ROOT / ".github/ISSUE_TEMPLATE/expanded-files-interest.yml"
+    issue_text = issue_template.read_text(encoding="utf-8")
+    for token in ["$9 template pack waitlist", "$9 is reasonable", "Cold-call prompt pack", "do not send money"]:
+        if token.lower() not in issue_text.lower():
+            failures.append(f"{issue_template.relative_to(ROOT)}: missing waitlist token {token!r}")
+    return failures
+
+
 def verify_forbidden_tokens() -> list[str]:
     failures: list[str] = []
     for path in sorted(ROOT.rglob("*")):
@@ -341,6 +371,7 @@ def main() -> int:
         + verify_measurable_downloads()
         + verify_structured_data()
         + verify_tracking_coverage()
+        + verify_template_pack_waitlist()
         + verify_forbidden_tokens()
     )
     print(f"html_files={len(html_files())}")
