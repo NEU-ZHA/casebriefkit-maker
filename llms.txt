@@ -6,27 +6,27 @@ CaseBriefKit is an educational study aid for law students. It helps users organi
 
 ## Core Pages
 
-- [CaseBriefKit](https://neu-zha.github.io/casebriefkit-maker/): Free case brief template and maker for law school reading notes.
-- [Case Brief Maker](https://neu-zha.github.io/casebriefkit-maker/case-brief-maker/): Generate FIRAC, IRAC, and CREAC case briefs in the browser.
-- [Law School Case Brief Template](https://neu-zha.github.io/casebriefkit-maker/law-school-case-brief-template/): Free law school case brief template with maker, PDF, DOCX, outline, and examples.
-- [Free Case Brief Template](https://neu-zha.github.io/casebriefkit-maker/free-case-brief-template/): Copy or download a free case brief template for law school.
-- [Case Brief Template PDF](https://neu-zha.github.io/casebriefkit-maker/case-brief-template-pdf/): Download a free printable case brief template PDF.
-- [Case Brief Template DOCX](https://neu-zha.github.io/casebriefkit-maker/case-brief-template-docx/): Download a free editable DOCX case brief template.
-- [Case Brief Format](https://neu-zha.github.io/casebriefkit-maker/case-brief-format/): Compare common case brief formats for class notes.
-- [IRAC Case Brief Example](https://neu-zha.github.io/casebriefkit-maker/irac-case-brief-example/): Review a short IRAC case brief example for law school notes.
+- [CaseBriefKit](https://casebrieftemplate.com/): Free case brief template and maker for law school reading notes.
+- [Case Brief Maker](https://casebrieftemplate.com/case-brief-maker/): Generate FIRAC, IRAC, and CREAC case briefs in the browser.
+- [Law School Case Brief Template](https://casebrieftemplate.com/law-school-case-brief-template/): Free law school case brief template with maker, PDF, DOCX, outline, and examples.
+- [Free Case Brief Template](https://casebrieftemplate.com/free-case-brief-template/): Copy or download a free case brief template for law school.
+- [Case Brief Template PDF](https://casebrieftemplate.com/case-brief-template-pdf/): Download a free printable case brief template PDF.
+- [Case Brief Template DOCX](https://casebrieftemplate.com/case-brief-template-docx/): Download a free editable DOCX case brief template.
+- [Case Brief Format](https://casebrieftemplate.com/case-brief-format/): Compare common case brief formats for class notes.
+- [IRAC Case Brief Example](https://casebrieftemplate.com/irac-case-brief-example/): Review a short IRAC case brief example for law school notes.
 
 ## Commercial / Sponsor Pages
 
-- [Sponsor Brief](https://neu-zha.github.io/casebriefkit-maker/sponsor-brief/): one-page founding sponsor pilot summary.
-- [Sponsor Media Kit](https://neu-zha.github.io/casebriefkit-maker/sponsor-media-kit/): pilot sponsor placement details.
-- [Advertise](https://neu-zha.github.io/casebriefkit-maker/advertise/): sponsor inquiry information.
+- [Sponsor Brief](https://casebrieftemplate.com/sponsor-brief/): one-page founding sponsor pilot summary.
+- [Sponsor Media Kit](https://casebrieftemplate.com/sponsor-media-kit/): pilot sponsor placement details.
+- [Advertise](https://casebrieftemplate.com/advertise/): sponsor inquiry information.
 
 ## Files
 
-- [Sitemap](https://neu-zha.github.io/casebriefkit-maker/sitemap.xml)
-- [RSS Feed](https://neu-zha.github.io/casebriefkit-maker/feed.xml)
-- [Free PDF Template](https://neu-zha.github.io/casebriefkit-maker/downloads/free-case-brief-template.pdf)
-- [Free DOCX Template](https://neu-zha.github.io/casebriefkit-maker/downloads/free-case-brief-template.docx)
+- [Sitemap](https://casebrieftemplate.com/sitemap.xml)
+- [RSS Feed](https://casebrieftemplate.com/feed.xml)
+- [Free PDF Template](https://casebrieftemplate.com/downloads/free-case-brief-template.pdf)
+- [Free DOCX Template](https://casebrieftemplate.com/downloads/free-case-brief-template.docx)
 
 ## Safety
 

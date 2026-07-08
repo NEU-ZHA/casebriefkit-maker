@@ -21,7 +21,7 @@ Intent signal:
 - A case brief template pack preview page now tests a planned `$9` one-time pack before a real payment link is added.
 - A separate template pack preview PDF is published as a release asset so high-intent downloads can be counted without requiring GitHub login.
 - Ad-ready house placements are live, and `ads.txt` is present for future authorized seller lines after ad network approval.
-- A public sponsor media kit is live at https://neu-zha.github.io/casebriefkit-maker/sponsor-media-kit/.
+- A public sponsor media kit is live at https://casebrieftemplate.com/sponsor-media-kit/.
 - The sponsor pilot offer is intentionally small: `$29` for one reviewed 14-day placement or `$49` for two reviewed 14-day placements.
 - Sponsor inquiries are collected through GitHub Issues and should not include payment details.
 - Sponsor placement updates can be prepared with `python3 scripts/apply_sponsor_placement.py --config CONFIG.json` before review and publish.
