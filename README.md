@@ -53,6 +53,7 @@ Traffic measurement readiness:
 Custom domain readiness:
 
 - The preferred production host is Cloudflare Pages, not a mainland server and not the old GitHub Pages URL.
+- The preferred first deployment path is Cloudflare Pages Direct Upload, so Cloudflare does not need GitHub access.
 - Do not switch canonical URLs before the domain is purchased and the Cloudflare Pages project is ready.
 - Canonical URLs and `sitemap.xml` now prefer directory-style pages so the same structure can move cleanly to `https://casebrieftemplate.com/case-brief-maker/`.
 - Keep clean URL pages synchronized with `python3 scripts/build_clean_urls.py`.
@@ -61,5 +62,6 @@ Custom domain readiness:
 - After buying the domain, run `python3 scripts/apply_custom_domain.py casebrieftemplate.com --platform cloudflare-pages --dry-run`.
 - If the dry run is correct, run `python3 scripts/apply_custom_domain.py casebrieftemplate.com --platform cloudflare-pages --apply`.
 - Use the Cloudflare Pages launch checklist in `docs/cloudflare-pages-launch.md`.
+- Build the Direct Upload zip with `python3 scripts/build_cloudflare_upload.py`.
 - Configure Cloudflare nameservers at the registrar, then run `python3 scripts/check_custom_domain.py casebrieftemplate.com --platform cloudflare-pages`.
 - Only after DNS, HTTPS, sitemap, and robots checks pass should Search Console and IndexNow move to the custom domain.

@@ -4,17 +4,21 @@ Target domain: `casebrieftemplate.com`
 
 Production host: Cloudflare Pages
 
-Repository: `NEU-ZHA/casebriefkit-maker`
+Deployment method: Direct Upload
 
-## Buy Only The Domain
+## Why This Route
 
-- Buy `casebrieftemplate.com` for 1 year if the registrar shows ordinary `.com` pricing.
-- Do not add a mainland server, paid SSL certificate, paid DNS plan, site builder, email, or filing service.
-- Complete the registrar identity template and domain purchase in the Tencent Cloud account.
+This launch follows a keyword-first SEO test:
+
+- The public entry point is `https://casebrieftemplate.com/`.
+- Cloudflare Pages hosts the static site.
+- Dynadot only holds the domain registration.
+- GitHub is not required for Cloudflare deployment.
+- Do not buy a mainland server, paid SSL certificate, paid DNS plan, site builder, email, or filing service.
 
 ## Prepare The Repository
 
-Run these only after the domain is purchased:
+Run these before each Direct Upload deployment:
 
 ```bash
 python3 scripts/apply_custom_domain.py casebrieftemplate.com --platform cloudflare-pages --dry-run
@@ -22,27 +26,30 @@ python3 scripts/apply_custom_domain.py casebrieftemplate.com --platform cloudfla
 python3 scripts/build_clean_urls.py
 python3 scripts/build_discovery_files.py
 python3 verify-free-site.py
+python3 scripts/build_cloudflare_upload.py
 ```
 
-Commit and push the resulting static files before connecting Cloudflare Pages.
+Commit the resulting static-file changes for local history. Cloudflare does not need GitHub access when using Direct Upload.
 
-## Cloudflare Pages Project
+## Cloudflare Direct Upload
 
-Create a Pages project from the GitHub repository:
+In Cloudflare:
 
-- Production branch: `main`
-- Build command: `exit 0`
-- Build output directory: `.`
-- Root directory: leave blank
+1. Go to Workers & Pages.
+2. Select Create application.
+3. Choose Upload your static files.
+4. Upload the generated `casebrieftemplate-cloudflare-pages-upload.zip` file.
+5. Set the worker/project name to `casebrieftemplate`.
+6. Deploy the site.
 
-The repository already includes `_headers`, `_redirects`, `404.html`, `robots.txt`, `sitemap.xml`, `feed.xml`, and `llms.txt`.
+The upload package includes `_headers`, `_redirects`, `404.html`, `robots.txt`, `sitemap.xml`, `feed.xml`, `llms.txt`, static HTML pages, assets, and free sample downloads.
 
-Cloudflare static HTML guide:
-https://developers.cloudflare.com/pages/framework-guides/deploy-anything/
+Cloudflare Direct Upload guide:
+https://developers.cloudflare.com/pages/get-started/direct-upload/
 
 ## Custom Domain
 
-For the apex domain `casebrieftemplate.com`, add the domain as a Cloudflare zone and change the nameservers at Tencent Cloud to the two nameservers Cloudflare provides.
+For the apex domain `casebrieftemplate.com`, add the domain as a Cloudflare zone and change the nameservers at Dynadot to the two nameservers Cloudflare provides.
 
 After the zone is active:
 
@@ -55,6 +62,16 @@ After the zone is active:
 
 Cloudflare custom domain guide:
 https://developers.cloudflare.com/pages/configuration/custom-domains/
+
+## Do Not Add These
+
+- No GitHub integration is required for the first launch.
+- No mainland server.
+- No paid SSL certificate.
+- No paid DNS plan.
+- No ICP filing.
+- No email hosting bundle.
+- No extra domains unless search evidence supports them.
 
 ## Verify
 
