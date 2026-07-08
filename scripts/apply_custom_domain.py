@@ -2,10 +2,10 @@
 """Prepare the static site for a purchased custom domain.
 
 Usage:
-  python3 scripts/apply_custom_domain.py casebriefkit.com --dry-run
-  python3 scripts/apply_custom_domain.py casebriefkit.com --apply
+  python3 scripts/apply_custom_domain.py casebriefkit.com --platform cloudflare-pages --dry-run
+  python3 scripts/apply_custom_domain.py casebriefkit.com --platform cloudflare-pages --apply
 
-Run this only after the domain is purchased and GitHub Pages is ready to use it.
+Run this only after the domain is purchased and the target host is ready to use it.
 """
 
 from __future__ import annotations
@@ -99,9 +99,15 @@ def sitemap_url_count() -> int:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Apply a custom domain to CaseBriefKit static files.")
     parser.add_argument("domain", help="Purchased domain, for example casebriefkit.com")
+    parser.add_argument(
+        "--platform",
+        choices=("cloudflare-pages", "github-pages"),
+        default="cloudflare-pages",
+        help="Hosting target. Cloudflare Pages does not need a CNAME file in the repository.",
+    )
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--dry-run", action="store_true", help="Show files that would change.")
-    mode.add_argument("--apply", action="store_true", help="Modify files and add CNAME.")
+    mode.add_argument("--apply", action="store_true", help="Modify files.")
     args = parser.parse_args()
 
     try:
@@ -119,10 +125,11 @@ def main() -> int:
         item = "indexnow-submit.json"
         if item not in changed:
             changed.append(item)
-    if write_cname(domain, args.apply):
+    if args.platform == "github-pages" and write_cname(domain, args.apply):
         changed.append("CNAME")
 
     print(f"mode={'apply' if args.apply else 'dry-run'}")
+    print(f"platform={args.platform}")
     print(f"domain={domain}")
     print(f"new_base={new_base}")
     print(f"sitemap_urls={sitemap_url_count()}")
